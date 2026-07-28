@@ -5,5 +5,5 @@ services:
         public: false
 
     Wexample\SymfonyGeo\:
-        resource: '../../{Service,Twig}'
+        resource: '../../{Controller,Repository,Service}'
         tags: ['controller.service_arguments']

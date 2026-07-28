@@ -15,14 +15,14 @@ class ContinentService
     public function seed(): void
     {
         foreach (ContinentData::getAll() as $data) {
-            $continent = $this->continentRepository->findByCode($data['code']);
+            $continent = $this->continentRepository->findByIsoAlpha2Code($data['isoAlpha2Code']);
 
             if ($continent) {
                 $continent->setName($data['name']);
                 $this->continentRepository->save($continent);
             } else {
                 $this->continentRepository->saveNewContinent(
-                    code: $data['code'],
+                    isoAlpha2Code: $data['isoAlpha2Code'],
                     name: $data['name'],
                 );
             }

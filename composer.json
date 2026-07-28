@@ -18,7 +18,9 @@
   "require": {
     "php": ">=8.2",
     "wexample/symfony-helpers": ">=4.0.0",
-    "wexample/symfony-api": ">=2.0.0"
+    "wexample/symfony-api": ">=2.0.0",
+    "wexample/symfony-money": ">=1.0.0",
+    "rinvex/countries": "^8.0"
   },
   "repositories": [
     {

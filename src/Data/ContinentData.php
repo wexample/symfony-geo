@@ -15,13 +15,13 @@ class ContinentData
     public static function getAll(): array
     {
         return [
-            self::CODE_AF => ['code' => self::CODE_AF, 'name' => 'Africa'],
-            self::CODE_AN => ['code' => self::CODE_AN, 'name' => 'Antarctica'],
-            self::CODE_AS => ['code' => self::CODE_AS, 'name' => 'Asia'],
-            self::CODE_EU => ['code' => self::CODE_EU, 'name' => 'Europe'],
-            self::CODE_NA => ['code' => self::CODE_NA, 'name' => 'North America'],
-            self::CODE_OC => ['code' => self::CODE_OC, 'name' => 'Oceania'],
-            self::CODE_SA => ['code' => self::CODE_SA, 'name' => 'South America'],
+            self::CODE_AF => ['isoAlpha2Code' => self::CODE_AF, 'name' => 'africa'],
+            self::CODE_AN => ['isoAlpha2Code' => self::CODE_AN, 'name' => 'antarctica'],
+            self::CODE_AS => ['isoAlpha2Code' => self::CODE_AS, 'name' => 'asia'],
+            self::CODE_EU => ['isoAlpha2Code' => self::CODE_EU, 'name' => 'europe'],
+            self::CODE_NA => ['isoAlpha2Code' => self::CODE_NA, 'name' => 'north_america'],
+            self::CODE_OC => ['isoAlpha2Code' => self::CODE_OC, 'name' => 'oceania'],
+            self::CODE_SA => ['isoAlpha2Code' => self::CODE_SA, 'name' => 'south_america'],
         ];
     }
 }

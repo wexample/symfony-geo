@@ -17,16 +17,16 @@ class Continent extends AbstractEntity
     use HasSecureIdTrait;
 
     #[ORM\Column(type: Types::STRING, length: 2, unique: true)]
-    protected string $code;
+    protected string $isoAlpha2Code;
 
-    public function getCode(): string
+    public function getIsoAlpha2Code(): string
     {
-        return $this->code;
+        return $this->isoAlpha2Code;
     }
 
-    public function setCode(string $code): static
+    public function setIsoAlpha2Code(string $isoAlpha2Code): static
     {
-        $this->code = $code;
+        $this->isoAlpha2Code = $isoAlpha2Code;
 
         return $this;
     }

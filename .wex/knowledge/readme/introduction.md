@@ -1,7 +1,7 @@
-# wexample/symfony-content
+# wexample/symfony-geo
 
 Version: 1.0.0
 
-Content management helpers for Symfony.
+Geo helpers for Symfony.
 
 ## Table of Contents

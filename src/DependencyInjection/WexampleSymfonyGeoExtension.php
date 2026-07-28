@@ -1,11 +1,11 @@
 <?php
 
-namespace Wexample\SymfonyContent\DependencyInjection;
+namespace Wexample\SymfonyGeo\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Wexample\SymfonyHelpers\DependencyInjection\AbstractWexampleSymfonyExtension;
 
-class WexampleSymfonyContentExtension extends AbstractWexampleSymfonyExtension
+class WexampleSymfonyGeoExtension extends AbstractWexampleSymfonyExtension
 {
     public function load(
         array $configs,

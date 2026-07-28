@@ -1,12 +1,12 @@
 {
-  "name": "wexample/symfony-content",
-  "description": "Content management helpers for Symfony",
+  "name": "wexample/symfony-geo",
+  "description": "Geo helpers for Symfony",
   "type": "library",
   "license": "MIT",
   "version": "1.0.0",
   "autoload": {
     "psr-4": {
-      "Wexample\\SymfonyContent\\": "src/"
+      "Wexample\\SymfonyGeo\\": "src/"
     }
   },
   "authors": [

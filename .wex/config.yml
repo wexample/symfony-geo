@@ -4,7 +4,7 @@ domains: []
 git:
   publication_strategy: main_push
 global:
-  name: symfony_content
+  name: symfony_geo
   type: app
   version: 1.0.0
 wex:

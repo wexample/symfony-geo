@@ -4,6 +4,6 @@ services:
         autoconfigure: true
         public: false
 
-    Wexample\SymfonyContent\:
+    Wexample\SymfonyGeo\:
         resource: '../../{Service,Twig}'
         tags: ['controller.service_arguments']

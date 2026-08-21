@@ -1,0 +1,72 @@
+## Architecture
+
+The bundle follows a strict layered stack: static data → entity → repository → service → controller. Each layer has one job; nothing skips a layer.
+
+### Bundle bootstrap
+
+{{ path("src/WexampleSymfonyGeoBundle.php") }} extends `AbstractBundle` from `wexample/symfony-helpers`. {{ path("src/DependencyInjection/WexampleSymfonyGeoExtension.php") }} loads the two config files at container build time via `$this->loadConfig(__DIR__, $container)`.
+
+{{ path("src/Resources/config/services.yaml") }} registers everything under `Wexample\SymfonyGeo\` in the `Controller`, `Repository`, and `Service` directories with `autowire: true` and `autoconfigure: true`. {{ path("src/Resources/config/routes.yaml") }} imports controller routes by PHP attributes.
+
+### Layers
+
+#### Static data
+
+{{ path("src/Data/ContinentData.php") }} is the only hand-maintained geographic dataset in the bundle. It defines seven continents as constants (`CODE_AF` … `CODE_SA`) and returns them through `getAll()` as arrays carrying `isoAlpha2Code` and `name`. Country data is not stored here; `CountryService` pulls it at runtime from the `rinvex/countries` package via `countries()`.
+
+#### Entities
+
+{{ path("src/Entity/Continent.php") }} maps to the `continent` table and carries:
+- `isoAlpha2Code` — two-character ISO code, unique
+- `name` via `HasNameTrait`
+- `secureId` via `HasSecureIdTrait`
+
+{{ path("src/Entity/Country.php") }} maps to the `country` table and extends the continent shape with:
+- `isoAlpha2Code` (2 chars), `isoAlpha3Code` (3 chars), `isoNumericCode` (3 chars) — all unique
+- `nativeName` — nullable string
+- `continent` — nullable `ManyToOne` to `Continent`
+- `currency` — nullable `ManyToOne` to `Currency` from `wexample/symfony-money`
+
+#### Repositories
+
+{{ path("src/Repository/ContinentRepository.php") }} and {{ path("src/Repository/CountryRepository.php") }} both extend `AbstractRepository` from `wexample/symfony-helpers` and pull in their respective manipulator traits.
+
+{{ path("src/Entity/Traits/Manipulator/ContinentEntityManipulatorTrait.php") }} and {{ path("src/Entity/Traits/Manipulator/CountryEntityManipulatorTrait.php") }} each implement `getEntityClassName()` and use `EntityManipulatorTrait` from `wexample/symfony-helpers`, which is what makes the `saveNew*` magic methods in the repository docblocks work.
+
+Each repository exposes `findByIsoAlpha2Code()` for lookups and a typed `createNew*()` factory that sets all fields and generates a secure ID before returning the unsaved entity.
+
+#### Services
+
+{{ path("src/Service/ContinentService.php") }} owns the continent seed loop. It calls `ContinentData::getAll()`, then for each entry either updates the existing row (found by `isoAlpha2Code`) or delegates to `ContinentRepository::saveNewContinent()`.
+
+{{ path("src/Service/CountryService.php") }} owns the country seed loop. It calls the `countries()` helper from `rinvex/countries`, resolves the matching `Continent` via `ContinentRepository::findByIsoAlpha2Code()` and the matching `Currency` via `CurrencyRepository::findByCode()` (from `wexample/symfony-money`), then either updates the existing row or delegates to `CountryRepository::saveNewCountry()`. Country names are normalised to lowercase with spaces, hyphens, and apostrophes replaced by underscores.
+
+#### Controllers
+
+{{ path("src/Controller/ContinentController.php") }} exposes `POST _geo/continent/import` and {{ path("src/Controller/CountryController.php") }} exposes `POST _geo/country/import`. Both extend `AbstractApiController` from `wexample/symfony-api`, accept no request body, delegate entirely to the corresponding service's `seed()` method, and return `self::apiResponseSuccess()` wrapped in an `ApiResponse`.
+
+### Call path for a seed import
+
+```
+POST _geo/country/import
+  → CountryController::import()
+    → CountryService::seed()
+      → countries()               # rinvex/countries dataset
+      → ContinentRepository::findByIsoAlpha2Code()
+      → CurrencyRepository::findByCode()
+      → CountryRepository::findByIsoAlpha2Code()
+        → (found)  CountryRepository::save()
+        → (absent) CountryRepository::saveNewCountry()
+  ← ApiResponse (success)
+```
+
+Continents follow the same path with `ContinentData::getAll()` substituted for `countries()` and no external repository lookups.
+
+### External dependencies
+
+| Package | What this bundle uses |
+|---|---|
+| `wexample/symfony-helpers` | `AbstractBundle`, `AbstractWexampleSymfonyExtension`, `AbstractRepository`, `EntityManipulatorTrait`, entity traits |
+| `wexample/symfony-api` | `AbstractApiController`, `ApiResponse` |
+| `wexample/symfony-money` | `Currency` entity, `CurrencyRepository` |
+| `rinvex/countries` | `countries()` helper and country data objects |

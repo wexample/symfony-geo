@@ -2,7 +2,6 @@
 
 namespace Wexample\SymfonyGeo\Service;
 
-use Rinvex\Country\CountryLoader;
 use Wexample\SymfonyGeo\Repository\ContinentRepository;
 use Wexample\SymfonyGeo\Repository\CountryRepository;
 use Wexample\SymfonyMoney\Repository\CurrencyRepository;

@@ -25,8 +25,7 @@ class ContinentRepository extends AbstractRepository
         $continent = new Continent();
         $continent
             ->setIsoAlpha2Code($isoAlpha2Code)
-            ->setName($name)
-            ->setGeneratedSecureId();
+            ->setName($name);
 
         return $continent;
     }

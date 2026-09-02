@@ -38,8 +38,7 @@ class CountryRepository extends AbstractRepository
             ->setName($name)
             ->setNativeName($nativeName)
             ->setContinent($continent)
-            ->setCurrency($currency)
-            ->setGeneratedSecureId();
+            ->setCurrency($currency);
 
         return $country;
     }

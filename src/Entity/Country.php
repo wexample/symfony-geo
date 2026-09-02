@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Wexample\SymfonyGeo\Repository\CountryRepository;
 use Wexample\SymfonyHelpers\Entity\AbstractEntity;
 use Wexample\SymfonyHelpers\Entity\Traits\HasNameTrait;
-use Wexample\SymfonyHelpers\Entity\Traits\HasSecureIdTrait;
 use Wexample\SymfonyMoney\Entity\Currency;
 
 #[ORM\Entity(repositoryClass: CountryRepository::class)]
@@ -15,7 +14,6 @@ use Wexample\SymfonyMoney\Entity\Currency;
 class Country extends AbstractEntity
 {
     use HasNameTrait;
-    use HasSecureIdTrait;
 
     #[ORM\Column(type: Types::STRING, length: 2, unique: true)]
     protected string $isoAlpha2Code;

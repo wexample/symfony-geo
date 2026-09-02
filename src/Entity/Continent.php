@@ -7,14 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Wexample\SymfonyGeo\Repository\ContinentRepository;
 use Wexample\SymfonyHelpers\Entity\AbstractEntity;
 use Wexample\SymfonyHelpers\Entity\Traits\HasNameTrait;
-use Wexample\SymfonyHelpers\Entity\Traits\HasSecureIdTrait;
 
 #[ORM\Entity(repositoryClass: ContinentRepository::class)]
 #[ORM\Table(name: 'continent')]
 class Continent extends AbstractEntity
 {
     use HasNameTrait;
-    use HasSecureIdTrait;
 
     #[ORM\Column(type: Types::STRING, length: 2, unique: true)]
     protected string $isoAlpha2Code;

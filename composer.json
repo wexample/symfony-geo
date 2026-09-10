@@ -16,7 +16,7 @@
     }
   ],
   "require": {
-    "php": ">=8.2",
+    "php": ">=8.5",
     "wexample/symfony-helpers": ">=7.0.0",
     "wexample/symfony-api": ">=4.0.0",
     "wexample/symfony-money": ">=3.0.0",
@@ -30,5 +30,10 @@
         "symlink": true
       }
     }
-  ]
+  ],
+  "extra": {
+    "install": {
+      "bundle_env": "all"
+    }
+  }
 }

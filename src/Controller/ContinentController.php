@@ -8,7 +8,7 @@ use Wexample\SymfonyApi\Api\Class\ApiResponse;
 use Wexample\SymfonyApi\Api\Controller\AbstractApiController;
 use Wexample\SymfonyGeo\Service\ContinentService;
 
-#[Route(path: '_geo/continent/', name: '_geo_continent_')]
+#[Route(path: '_geo/continent/', name: 'geo_continent_')]
 class ContinentController extends AbstractApiController
 {
     final public const ROUTE_IMPORT = 'import';

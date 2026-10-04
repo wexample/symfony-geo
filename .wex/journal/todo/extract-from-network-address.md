@@ -4,6 +4,10 @@ Opened: 2026-09-24
 Updated: 2026-09-24
 Author: agent:archeology
 
+## Status (2026-10-04)
+
+Done: PostalAddressInterface, HasPostalAddressTrait, PostalAddress (snapshot), AbstractAddress (addressee, copyFrom), PostalAddressHelper. The country is an ISO alpha-2 code rather than a relation to Country, so addresses can be snapshotted and copied without the database. Left: the optional form types and the README migration notes.
+
 ## Read this first — status of this todo
 
 > **This is a proposal for discussion, not an order to code.** It was written by the 2026-09 network archaeology pass. Read it, then discuss it with the owner: every design choice and recommendation below is to be challenged and validated **before** any code is written. Do not start implementing on your own.

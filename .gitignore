@@ -46,3 +46,5 @@ coverage/
 /coverage/
 coverage-*.json
 coverage*.lcov
+.phpunit.result.cache
+/tests/Fixtures/App/config/reference.php

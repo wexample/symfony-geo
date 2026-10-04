@@ -9,6 +9,11 @@
       "Wexample\\SymfonyGeo\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Wexample\\SymfonyGeo\\Tests\\": "tests/"
+    }
+  },
   "authors": [
     {
       "name": "weeger",
@@ -21,6 +26,9 @@
     "wexample/symfony-api": ">=8.0.0",
     "wexample/symfony-money": ">=4.0.0",
     "rinvex/countries": "^8.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*"
   },
   "repositories": [
     {

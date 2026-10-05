@@ -1,11 +1,16 @@
 # symfony_geo
 
-Version: 3.1.5
+Version: 4.0.0
 
 `wexample/symfony-geo` is a Symfony bundle that ships `Continent` and `Country` Doctrine entities populated from the `rinvex/countries` dataset, each carrying ISO codes and a relationship to the currency entity from `wexample/symfony-money`. It is aimed at Symfony developers who need a ready-made geographic reference layer — with repositories, seed services, and API import endpoints — without writing the boilerplate themselves.
 
+## Addresses
+
+`PostalAddressInterface` is a postal address with an ISO alpha-2 country code. Entities get the columns from `HasPostalAddressTrait`; `AbstractAddress` adds an addressee for user and organization address books; `PostalAddress` is the immutable copy stored as JSON in snapshots (a paid cart's billing address, an emitted invoice's customer). `PostalAddressHelper::toLines()` gives the lines as printed on an envelope.
+
 ## Table of Contents
 
+- [Addresses](#addresses)
 - [Architecture](#architecture)
 - [Integration in the Suite](#integration-in-the-suite)
 - [Dependencies](#dependencies)
@@ -100,9 +105,9 @@ Visit the [Wexample Suite documentation](https://docs.wexample.com) for the comp
 ## Dependencies
 
 - php: >=8.5
-- wexample/symfony-helpers: >=12.0.0
+- wexample/symfony-helpers: >=13.0.0
 - wexample/symfony-api: >=8.0.0
-- wexample/symfony-money: >=4.0.0
+- wexample/symfony-money: >=5.0.0
 - rinvex/countries: ^8.0
 
 ## Versioning & Compatibility Policy

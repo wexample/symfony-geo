@@ -12,8 +12,9 @@ use Wexample\SymfonyHelpers\Entity\AbstractEntity;
 /**
  * A postal address with an optional addressee, shared by organizations, users
  * and carts. Owners (user, organization) are mapped by the extending entity.
+ * Like AbstractEntity, it is not mapped itself: its columns are the extending
+ * entity's.
  */
-#[ORM\MappedSuperclass]
 abstract class AbstractAddress extends AbstractEntity implements PostalAddressInterface, Stringable
 {
     use HasPostalAddressTrait;

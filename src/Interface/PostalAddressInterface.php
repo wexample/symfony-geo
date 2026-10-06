@@ -2,10 +2,10 @@
 
 namespace Wexample\SymfonyGeo\Interface;
 
+use Wexample\SymfonyGeo\Entity\Country;
+
 /**
- * A postal address. The country is an ISO 3166-1 alpha-2 code ("FR", "BE"),
- * the key of the Country entity, so an address can be copied or snapshotted
- * without a database.
+ * A postal address. Its country is a Country entity.
  */
 interface PostalAddressInterface
 {
@@ -18,5 +18,5 @@ interface PostalAddressInterface
 
     public function getCity(): ?string;
 
-    public function getCountryCode(): ?string;
+    public function getCountry(): ?Country;
 }

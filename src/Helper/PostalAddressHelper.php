@@ -8,7 +8,7 @@ class PostalAddressHelper
 {
     /**
      * The address as printed on an envelope or an invoice:
-     * street lines, then "post code city", then the country code when asked.
+     * street lines, then "post code city", then the country name when asked.
      *
      * @return list<string>
      */
@@ -29,8 +29,8 @@ class PostalAddressHelper
             $lines[] = $locality;
         }
 
-        if ($withCountry && $address->getCountryCode()) {
-            $lines[] = $address->getCountryCode();
+        if ($withCountry && $address->getCountry()) {
+            $lines[] = $address->getCountry()->getName();
         }
 
         return $lines;
@@ -46,18 +46,5 @@ class PostalAddressHelper
     public static function isEmpty(PostalAddressInterface $address): bool
     {
         return [] === static::toLines($address);
-    }
-
-    /**
-     * @return array{postalAddress: ?string, postCode: ?string, city: ?string, countryCode: ?string}
-     */
-    public static function toArray(PostalAddressInterface $address): array
-    {
-        return [
-            'postalAddress' => $address->getPostalAddress(),
-            'postCode' => $address->getPostCode(),
-            'city' => $address->getCity(),
-            'countryCode' => $address->getCountryCode(),
-        ];
     }
 }

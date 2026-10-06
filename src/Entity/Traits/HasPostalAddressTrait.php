@@ -4,6 +4,9 @@ namespace Wexample\SymfonyGeo\Entity\Traits;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Wexample\SymfonyGeo\Entity\Country;
 use Wexample\SymfonyGeo\Helper\PostalAddressHelper;
 use Wexample\SymfonyGeo\Interface\PostalAddressInterface;
 
@@ -21,8 +24,9 @@ trait HasPostalAddressTrait
     #[Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $city = null;
 
-    #[Column(type: Types::STRING, length: 2, nullable: true)]
-    protected ?string $countryCode = null;
+    #[ManyToOne(targetEntity: Country::class)]
+    #[JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    protected ?Country $country = null;
 
     public function getPostalAddress(): ?string
     {
@@ -60,14 +64,14 @@ trait HasPostalAddressTrait
         return $this;
     }
 
-    public function getCountryCode(): ?string
+    public function getCountry(): ?Country
     {
-        return $this->countryCode;
+        return $this->country;
     }
 
-    public function setCountryCode(?string $countryCode): static
+    public function setCountry(?Country $country): static
     {
-        $this->countryCode = null === $countryCode ? null : strtoupper($countryCode);
+        $this->country = $country;
 
         return $this;
     }
@@ -77,7 +81,7 @@ trait HasPostalAddressTrait
         $this->postalAddress = $address->getPostalAddress();
         $this->postCode = $address->getPostCode();
         $this->city = $address->getCity();
-        $this->countryCode = $address->getCountryCode();
+        $this->country = $address->getCountry();
 
         return $this;
     }

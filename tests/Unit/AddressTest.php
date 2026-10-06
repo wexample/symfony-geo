@@ -10,7 +10,7 @@ class AddressTest extends TestCase
 {
     private function address(): AbstractAddress
     {
-        return new class() extends AbstractAddress {
+        return new class () extends AbstractAddress {
         };
     }
 

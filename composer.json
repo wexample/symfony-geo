@@ -3,7 +3,7 @@
   "description": "Geo helpers for Symfony",
   "type": "library",
   "license": "MIT",
-  "version": "4.0.5",
+  "version": "5.0.0",
   "autoload": {
     "psr-4": {
       "Wexample\\SymfonyGeo\\": "src/"

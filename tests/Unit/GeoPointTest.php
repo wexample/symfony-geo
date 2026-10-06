@@ -14,13 +14,13 @@ class GeoPointTest extends TestCase
 {
     private function address(): AbstractAddress
     {
-        return new class() extends AbstractAddress {
+        return new class () extends AbstractAddress {
         };
     }
 
     private function geocoder(?GeoPoint $answer): GeocoderInterface
     {
-        return new class($answer) implements GeocoderInterface {
+        return new class ($answer) implements GeocoderInterface {
             public int $calls = 0;
 
             public function __construct(private readonly ?GeoPoint $answer)

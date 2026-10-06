@@ -6,6 +6,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 use Wexample\SymfonyGeo\Entity\Traits\HasPostalAddressTrait;
+use Wexample\SymfonyGeo\Interface\GeoLocatedInterface;
 use Wexample\SymfonyGeo\Interface\PostalAddressInterface;
 use Wexample\SymfonyHelpers\Entity\AbstractEntity;
 
@@ -15,7 +16,7 @@ use Wexample\SymfonyHelpers\Entity\AbstractEntity;
  * Like AbstractEntity, it is not mapped itself: its columns are the extending
  * entity's.
  */
-abstract class AbstractAddress extends AbstractEntity implements PostalAddressInterface, Stringable
+abstract class AbstractAddress extends AbstractEntity implements PostalAddressInterface, GeoLocatedInterface, Stringable
 {
     use HasPostalAddressTrait;
 

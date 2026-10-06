@@ -8,13 +8,17 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Wexample\SymfonyGeo\Entity\Country;
 use Wexample\SymfonyGeo\Helper\PostalAddressHelper;
+use Wexample\SymfonyGeo\Interface\GeoLocatedInterface;
 use Wexample\SymfonyGeo\Interface\PostalAddressInterface;
 
 /**
- * Postal address columns for any entity. Implements PostalAddressInterface.
+ * Postal address columns for any entity, and the point it sits on once
+ * located. Implements PostalAddressInterface and GeoLocatedInterface.
  */
 trait HasPostalAddressTrait
 {
+    use HasGeoPointTrait;
+
     #[Column(type: Types::STRING, length: 255, nullable: true)]
     protected ?string $postalAddress = null;
 
@@ -82,6 +86,9 @@ trait HasPostalAddressTrait
         $this->postCode = $address->getPostCode();
         $this->city = $address->getCity();
         $this->country = $address->getCountry();
+        // The point belongs to the address it was located from: copied along
+        // with it, never kept for another one.
+        $this->setGeoPoint($address instanceof GeoLocatedInterface ? $address->getGeoPoint() : null);
 
         return $this;
     }

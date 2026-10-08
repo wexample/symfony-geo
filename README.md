@@ -1,6 +1,6 @@
 # symfony_geo
 
-Version: 5.0.0
+Version: 5.0.1
 
 `wexample/symfony-geo` is a Symfony bundle that ships `Continent` and `Country` Doctrine entities populated from the `rinvex/countries` dataset, each carrying ISO codes and a relationship to the currency entity from `wexample/symfony-money`. It is aimed at Symfony developers who need a ready-made geographic reference layer — with repositories, seed services, and API import endpoints — without writing the boilerplate themselves.
 
@@ -106,7 +106,7 @@ Visit the [Wexample Suite documentation](https://docs.wexample.com) for the comp
 
 - php: >=8.5
 - wexample/symfony-helpers: >=15.0.0
-- wexample/symfony-api: >=11.0.0
+- wexample/symfony-api: >=12.0.0
 - wexample/symfony-money: >=5.0.0
 - rinvex/countries: ^8.0
 

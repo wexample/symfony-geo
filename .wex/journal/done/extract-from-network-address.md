@@ -47,3 +47,8 @@ network's `Address` (postal address + country) is shared by organizations, users
 ## Acceptance criteria
 
 - Tests for `AbstractAddress` behaviour and the optional form types; symfony-company can map its organization address to a class extending `AbstractAddress`.
+
+## Correction du 2026-10-09
+
+Le statut ci-dessus parle de pays en code ISO : renversé depuis (commit 9b6ef0d), les adresses portent une relation vers `Country`, et aucun code ISO ne vit hors de cette table. Géocodage ajouté ensuite (afc175a, `GeocoderInterface` sans implémentation). Les types de formulaire restent optionnels et non faits.
+

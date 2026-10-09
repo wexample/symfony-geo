@@ -5,6 +5,7 @@ namespace Wexample\SymfonyGeo\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
+use Symfony\Component\Intl\Countries;
 use Wexample\SymfonyGeo\Interface\PostalAddressInterface;
 
 /**
@@ -42,16 +43,22 @@ class AddressSnapshot implements Stringable
     private ?string $countryName = null;
 
     /**
-     * The address `$address` reads now, its addressee with it when it has one.
+     * The address `$address` reads now, its addressee with it when it has one,
+     * its country named in `$locale` — the language of the page it was
+     * typed on —, as the document will print it.
      */
-    public static function fromAddress(PostalAddressInterface $address): self
-    {
+    public static function fromAddress(
+        PostalAddressInterface $address,
+        ?string $locale = null,
+    ): self {
         $snapshot = new self();
         $snapshot->postalAddress = $address->getPostalAddress();
         $snapshot->postCode = $address->getPostCode();
         $snapshot->city = $address->getCity();
         $snapshot->countryCode = $address->getCountry()?->getIsoAlpha2Code();
-        $snapshot->countryName = $address->getCountry()?->getName();
+        $snapshot->countryName = $snapshot->countryCode && Countries::exists($snapshot->countryCode)
+            ? Countries::getName($snapshot->countryCode, $locale)
+            : $address->getCountry()?->getName();
 
         if ($address instanceof AbstractAddress) {
             $snapshot->firstName = $address->getFirstName();

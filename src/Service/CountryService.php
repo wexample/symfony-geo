@@ -17,21 +17,24 @@ class CountryService
 
     public function seed(): void
     {
-        foreach (countries() as $data) {
+        // Every country, long-listed and hydrated: the short list as arrays
+        // holds none of the accessors read below.
+        foreach (countries(true, true) as $data) {
             $isoAlpha2Code = $data->getIsoAlpha2();
             $isoAlpha3Code = $data->getIsoAlpha3();
             $isoNumericCode = $data->getIsoNumeric();
             $name = strtolower(str_replace([' ', '-', "'"], ['_', '_', ''], $data->getName()));
             $nativeName = $data->getNativeName() ?: null;
-            $continentCode = $data->getContinent();
-            $currencyCode = $data->getCurrency();
+            // Its continent by code: the library gives its name, keyed by it.
+            $continentCode = array_key_first($data->getAttributes()['geo']['continent'] ?? []);
+            $currencyCode = $data->getCurrency()['iso_4217_code'] ?? null;
 
             $continent = $continentCode
                 ? $this->continentRepository->findByIsoAlpha2Code($continentCode)
                 : null;
 
             $currency = $currencyCode
-                ? $this->currencyRepository->findByCode($currencyCode)
+                ? $this->currencyRepository->findByCurrencyCode($currencyCode)
                 : null;
 
             $country = $this->countryRepository->findByIsoAlpha2Code($isoAlpha2Code);

@@ -11,10 +11,12 @@ use Wexample\SymfonyGeo\Interface\PostalAddressInterface;
 use Wexample\SymfonyHelpers\Entity\AbstractEntity;
 
 /**
- * A postal address with an optional addressee, shared by organizations, users
- * and carts. Owners (user, organization) are mapped by the extending entity.
- * Like AbstractEntity, it is not mapped itself: its columns are the extending
- * entity's.
+ * A postal address with an optional addressee. Like AbstractEntity, it is not
+ * mapped itself: its columns are the extending entity's.
+ *
+ * `Address` extends it into the shared `address` table, which is what an
+ * organization or a user points at. Extending it again is for an owner
+ * needing columns of its own on each address it keeps.
  */
 abstract class AbstractAddress extends AbstractEntity implements PostalAddressInterface, GeoLocatedInterface, Stringable
 {

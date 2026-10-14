@@ -68,6 +68,42 @@ class AddressSnapshot implements Stringable
         return $snapshot;
     }
 
+    /**
+     * The same snapshot inside a document kept as JSON — an invoice, an order
+     * — rather than in columns of its own.
+     *
+     * @param array<string, string|null> $data
+     */
+    public static function fromArray(array $data): self
+    {
+        $snapshot = new self();
+        $snapshot->firstName = $data['firstName'] ?? null;
+        $snapshot->lastName = $data['lastName'] ?? null;
+        $snapshot->postalAddress = $data['postalAddress'] ?? null;
+        $snapshot->postCode = $data['postCode'] ?? null;
+        $snapshot->city = $data['city'] ?? null;
+        $snapshot->countryCode = $data['countryCode'] ?? null;
+        $snapshot->countryName = $data['countryName'] ?? null;
+
+        return $snapshot;
+    }
+
+    /**
+     * @return array<string, string|null>
+     */
+    public function toArray(): array
+    {
+        return [
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
+            'postalAddress' => $this->postalAddress,
+            'postCode' => $this->postCode,
+            'city' => $this->city,
+            'countryCode' => $this->countryCode,
+            'countryName' => $this->countryName,
+        ];
+    }
+
     public function getFirstName(): ?string
     {
         return $this->firstName;
@@ -114,10 +150,15 @@ class AddressSnapshot implements Stringable
      * As printed: the addressee, the street lines, "post code city", the
      * country.
      *
+     * @param ?string $locale Names the country in that language, when its code
+     *                        is one Intl knows; without it, the name frozen
+     *                        with the snapshot.
      * @return list<string>
      */
-    public function toLines(bool $withCountry = true): array
-    {
+    public function toLines(
+        bool $withCountry = true,
+        ?string $locale = null
+    ): array {
         $lines = array_values(array_filter(
             array_map('trim', preg_split('/\R/', (string) $this->postalAddress)),
             static fn (string $line) => '' !== $line
@@ -129,8 +170,12 @@ class AddressSnapshot implements Stringable
             $lines[] = $locality;
         }
 
-        if ($withCountry && $this->countryName) {
-            $lines[] = $this->countryName;
+        $countryName = null !== $locale && $this->countryCode && Countries::exists($this->countryCode)
+            ? Countries::getName($this->countryCode, $locale)
+            : $this->countryName;
+
+        if ($withCountry && $countryName) {
+            $lines[] = $countryName;
         }
 
         if ($name = $this->getFullName()) {

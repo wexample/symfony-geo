@@ -3,7 +3,7 @@
   "description": "Geo helpers for Symfony",
   "type": "library",
   "license": "MIT",
-  "version": "8.0.3",
+  "version": "8.0.4",
   "autoload": {
     "psr-4": {
       "Wexample\\SymfonyGeo\\": "src/"
@@ -24,7 +24,7 @@
     "php": ">=8.5",
     "wexample/symfony-helpers": ">=18.0.2",
     "wexample/symfony-api": ">=15.0.0",
-    "wexample/symfony-money": ">=7.0.4",
+    "wexample/symfony-money": ">=8.0.0",
     "rinvex/countries": "^8.0",
     "symfony/intl": "^7.4 || ^8.0"
   },

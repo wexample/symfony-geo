@@ -1,6 +1,6 @@
 # symfony_geo
 
-Version: 8.0.6
+Version: 8.0.7
 
 Geo helpers for Symfony
 

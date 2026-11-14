@@ -13,7 +13,7 @@ class ContinentController extends AbstractApiController
 {
     final public const ROUTE_IMPORT = 'import';
 
-    #[Route(path: 'import', name: self::ROUTE_IMPORT, methods: [Request::METHOD_POST, self::ROUTE_OPTION_KEY_EXPOSE => true])]
+    #[Route(path: 'import', name: self::ROUTE_IMPORT, methods: [Request::METHOD_POST], options: self::ROUTE_OPTIONS_ONLY_EXPOSE)]
     public function import(ContinentService $continentService): ApiResponse
     {
         $continentService->seed();

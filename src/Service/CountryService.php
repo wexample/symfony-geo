@@ -2,6 +2,7 @@
 
 namespace Wexample\SymfonyGeo\Service;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Wexample\SymfonyGeo\Repository\ContinentRepository;
 use Wexample\SymfonyGeo\Repository\CountryRepository;
 use Wexample\SymfonyMoney\Repository\CurrencyRepository;
@@ -12,11 +13,19 @@ class CountryService
         private readonly CountryRepository $countryRepository,
         private readonly ContinentRepository $continentRepository,
         private readonly CurrencyRepository $currencyRepository,
+        private readonly EntityManagerInterface $entityManager,
     ) {
     }
 
     public function seed(): void
     {
+        // The three tables read once, keyed by the code each row is looked up
+        // by (all three unique): a query per country per table was the cost of
+        // a seed of some 250 countries.
+        $continents = $this->indexBy($this->continentRepository->findAll(), static fn ($continent) => $continent->getIsoAlpha2Code());
+        $currencies = $this->indexBy($this->currencyRepository->findAll(), static fn ($currency) => $currency->getCurrencyCode());
+        $countries = $this->indexBy($this->countryRepository->findAll(), static fn ($country) => $country->getIsoAlpha2Code());
+
         // Every country, long-listed and hydrated: the short list as arrays
         // holds none of the accessors read below.
         foreach (countries(true, true) as $data) {
@@ -29,15 +38,10 @@ class CountryService
             $continentCode = array_key_first($data->getAttributes()['geo']['continent'] ?? []);
             $currencyCode = $data->getCurrency()['iso_4217_code'] ?? null;
 
-            $continent = $continentCode
-                ? $this->continentRepository->findByIsoAlpha2Code($continentCode)
-                : null;
+            $continent = $continentCode ? ($continents[$continentCode] ?? null) : null;
+            $currency = $currencyCode ? ($currencies[$currencyCode] ?? null) : null;
 
-            $currency = $currencyCode
-                ? $this->currencyRepository->findByCurrencyCode($currencyCode)
-                : null;
-
-            $country = $this->countryRepository->findByIsoAlpha2Code($isoAlpha2Code);
+            $country = $countries[$isoAlpha2Code] ?? null;
 
             if ($country) {
                 $country
@@ -47,10 +51,8 @@ class CountryService
                     ->setNativeName($nativeName)
                     ->setContinent($continent)
                     ->setCurrency($currency);
-
-                $this->countryRepository->save($country);
             } else {
-                $this->countryRepository->saveNewCountry(
+                $country = $this->countryRepository->createNewCountry(
                     isoAlpha2Code: $isoAlpha2Code,
                     isoAlpha3Code: $isoAlpha3Code,
                     isoNumericCode: $isoNumericCode,
@@ -59,7 +61,31 @@ class CountryService
                     continent: $continent,
                     currency: $currency,
                 );
+                $countries[$isoAlpha2Code] = $country;
             }
+
+            $this->countryRepository->save($country, flush: false);
         }
+
+        // One flush for the whole dataset.
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @template T
+     * @param T[] $entities
+     * @return array<string, T>
+     */
+    private function indexBy(
+        array $entities,
+        callable $key
+    ): array {
+        $indexed = [];
+
+        foreach ($entities as $entity) {
+            $indexed[$key($entity)] = $entity;
+        }
+
+        return $indexed;
     }
 }

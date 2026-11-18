@@ -2,13 +2,13 @@
 
 namespace Wexample\SymfonyGeo\Controller;
 
-use Wexample\SymfonyHelpers\Helper\RoleHelper;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Wexample\SymfonyApi\Api\Class\ApiResponse;
 use Wexample\SymfonyApi\Api\Controller\AbstractApiController;
 use Wexample\SymfonyGeo\Service\ContinentService;
+use Wexample\SymfonyHelpers\Helper\RoleHelper;
 
 #[Route(path: '_geo/continent/', name: 'geo_continent_')]
 class ContinentController extends AbstractApiController

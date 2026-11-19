@@ -1,6 +1,6 @@
 # symfony_geo
 
-Version: 10.0.1
+Version: 10.0.2
 
 Geo helpers for Symfony
 
